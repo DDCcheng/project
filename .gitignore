@@ -1,0 +1,46 @@
+# ------------------------------------------------------------------
+# COMP9444 Project 093 -- what NOT to commit
+# ------------------------------------------------------------------
+
+# NOTE: the dataset images under data/ ARE committed on purpose so the whole
+# team gets them straight from `git pull` (no Kaggle account needed).
+
+# --- Large feature files produced by roles 2 & 3 ---
+*.npy
+*.npz
+*.pt
+*.pth
+
+# --- Python virtual environment ---
+.venv/
+venv/
+env/
+
+# --- Python caches / build ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Kaggle credentials (never commit secrets) ---
+kaggle.json
+.kaggle/
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Claude Code local config / scratch (do not commit) ---
+.claude/
+
+# ------------------------------------------------------------------
+# NOTE: data/ images, results/figures, results/tables and
+# docs/file_list.csv ARE committed on purpose -- shared team outputs.
+# ------------------------------------------------------------------
