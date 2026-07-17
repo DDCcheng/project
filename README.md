@@ -4,4 +4,4 @@ Project distribution:
 2. DenseNet-201
 3. ResNeXt-101
 4. PCA
-5. Report
+5. Report: Xinye Pan
