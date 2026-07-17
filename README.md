@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # COMP9444 Project 093 — Fruit & Vegetable Freshness Assessment
 
 Reproducing **Yuan & Chen (2024)**:
@@ -96,3 +97,12 @@ python src/preprocessing/validate_features.py --features-dir <folder> --model-na
 Roles 2–5: load `docs/file_list.csv`, honour its `split` column, iterate **in row order**,
 and follow the naming/PCA rules in `EXPERIMENT_RULES.md`. Feature extraction needs `torch` +
 `torchvision` (already in `requirements.txt`).
+=======
+Repository for COMP9444 PROJECT.
+Project distribution:
+1. Data split and writing project document: dacheng-liu
+2. DenseNet-201
+3. ResNeXt-101
+4. PCA
+5. Report: Xinye Pan
+>>>>>>> 684225af4ac2766a7518d08c1abeeb5c3a0989ec
