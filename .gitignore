@@ -6,7 +6,6 @@
 # team gets them straight from `git pull` (no Kaggle account needed).
 
 # --- Large feature files produced by roles 2 & 3 ---
-*.npy
 *.npz
 *.pt
 *.pth
