@@ -42,6 +42,17 @@ def main() -> int:
     file_list = pd.read_csv(FILE_LIST)
     no_aug_meta, no_aug_features, no_aug_labels = load_case("no_aug")
     aug_meta, aug_features, aug_labels = load_case("aug")
+    split_counts = file_list["split"].value_counts().to_dict()
+    format_summary_path = TABLE_ROOT / "format_size_summary.csv"
+    raw_total = int(pd.read_csv(format_summary_path)["total_images"].iloc[0]) if format_summary_path.is_file() else len(file_list)
+    hash_path = TABLE_ROOT / "image_hashes.csv"
+    conflicting_paths = 0
+    if hash_path.is_file():
+        hashes = pd.read_csv(hash_path)
+        conflicting = set(
+            hashes.groupby("sha256")["label"].nunique().loc[lambda s: s > 1].index
+        )
+        conflicting_paths = int(hashes["sha256"].isin(conflicting).sum())
 
     rows: list[dict[str, object]] = []
     for case, metadata, features, labels in [
@@ -97,12 +108,12 @@ uses these files.
 
 ## Data and split
 
-- Raw images checked: 12,000.
-- Readable images: 12,000; corrupt images: 0.
+- Raw images checked: {raw_total}.
+- Readable images: {raw_total}; corrupt images: 0.
 - Original source classes: 20.
-- After removing 5 exact duplicate paths with conflicting source labels, the
-  shared split contains 11,995 images.
-- Split counts: train 8,382; validation 1,808; test 1,805.
+- After removing {conflicting_paths} exact duplicate paths with conflicting
+  source labels, the shared split contains {len(file_list)} images.
+- Split counts: train {split_counts.get('train', 0)}; validation {split_counts.get('val', 0)}; test {split_counts.get('test', 0)}.
 - Split policy: source-class stratification, seed 42, with exact duplicate byte
   groups kept within one split. No duplicate hash group crosses splits.
 - Binary labels are derived as `fresh* -> fresh` and `rotten* -> rotten`.

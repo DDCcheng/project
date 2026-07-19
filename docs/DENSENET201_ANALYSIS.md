@@ -10,12 +10,12 @@ uses these files.
 
 ## Data and split
 
-- Raw images checked: 12,000.
-- Readable images: 12,000; corrupt images: 0.
+- Raw images checked: 12000.
+- Readable images: 12000; corrupt images: 0.
 - Original source classes: 20.
-- After removing 5 exact duplicate paths with conflicting source labels, the
-  shared split contains 11,995 images.
-- Split counts: train 8,382; validation 1,808; test 1,805.
+- After removing 5 exact duplicate paths with conflicting
+  source labels, the shared split contains 11995 images.
+- Split counts: train 8397; validation 1799; test 1799.
 - Split policy: source-class stratification, seed 42, with exact duplicate byte
   groups kept within one split. No duplicate hash group crosses splits.
 - Binary labels are derived as `fresh* -> fresh` and `rotten* -> rotten`.
@@ -38,8 +38,8 @@ uses these files.
 - Validation and test features are reused from the clean evaluation pipeline.
 - Validation and test features are identical between cases: `True` / `True`.
 - Training features differ as expected: maximum absolute difference
-  `13.061909`, mean per-image L2 difference
-  `15.311611`.
+  `11.895671`, mean per-image L2 difference
+  `15.314991`.
 
 ## Interpretation and limitations
 

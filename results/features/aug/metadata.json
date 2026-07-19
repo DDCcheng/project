@@ -23,26 +23,26 @@
   "augmentation": "train-only deterministic RandomResizedCrop(scale=(0.85,1.0)), HorizontalFlip(0.5), Rotation(10), ColorJitter(0.15,0.15,0.10,0.03)",
   "splits": {
     "train": {
-      "rows": 8382,
+      "rows": 8397,
       "feature_dim": 1920,
-      "seconds": 346.208,
-      "fresh": 4269,
-      "rotten": 4113
+      "seconds": 380.585,
+      "fresh": 4276,
+      "rotten": 4121
     },
     "test": {
-      "rows": 1805,
+      "rows": 1799,
       "feature_dim": 1920,
       "seconds": 0.0,
-      "fresh": 919,
-      "rotten": 886,
+      "fresh": 916,
+      "rotten": 883,
       "reused_from": "no_aug"
     },
     "val": {
-      "rows": 1808,
+      "rows": 1799,
       "feature_dim": 1920,
       "seconds": 0.0,
-      "fresh": 921,
-      "rotten": 887,
+      "fresh": 917,
+      "rotten": 882,
       "reused_from": "no_aug"
     }
   }

@@ -111,6 +111,84 @@ def grouped_stratified_split(df: pd.DataFrame) -> pd.DataFrame:
 
     result = df.copy()
     result["split"] = result["group_key"].map(assignments)
+    # Correct the small rounding drift from the greedy pass.  Move whole
+    # duplicate groups only; singleton groups make the requested integer
+    # counts attainable for this dataset while preserving each source class.
+    grouped = (
+        result.groupby(["label", "group_key", "split"], as_index=False)
+        .size()
+        .rename(columns={"size": "group_size"})
+    )
+    labels_sorted = sorted(result["label"].unique())
+    global_targets = {
+        "train": int(np.floor(len(result) * TRAIN_FRAC + 0.5)),
+        "val": int(np.floor(len(result) * VAL_FRAC + 0.5)),
+    }
+
+    def allocate_targets(fraction: float, total_target: int) -> dict[str, int]:
+        raw = {label: fraction * int((result["label"] == label).sum()) for label in labels_sorted}
+        allocated = {label: int(np.floor(value)) for label, value in raw.items()}
+        remainder = total_target - sum(allocated.values())
+        order = sorted(
+            labels_sorted,
+            key=lambda label: (raw[label] - allocated[label], label),
+            reverse=True,
+        )
+        for label in order[:remainder]:
+            allocated[label] += 1
+        return allocated
+
+    train_targets = allocate_targets(TRAIN_FRAC, global_targets["train"])
+    val_targets = allocate_targets(VAL_FRAC, global_targets["val"])
+    target_by_label: dict[str, dict[str, int]] = {}
+    for label in labels_sorted:
+        total = int((result["label"] == label).sum())
+        train_target = train_targets[label]
+        val_target = min(val_targets[label], total - train_target)
+        target_by_label[label] = {
+            "train": train_target,
+            "val": val_target,
+            "test": total - train_target - val_target,
+        }
+
+    for label, target in target_by_label.items():
+        counts = result.loc[result["label"] == label, "split"].value_counts().to_dict()
+        for split in ["train", "val", "test"]:
+            counts.setdefault(split, 0)
+        for _ in range(100):
+            deficits = {s: target[s] - counts[s] for s in target}
+            if all(value == 0 for value in deficits.values()):
+                break
+            destination = max(deficits, key=deficits.get)
+            if deficits[destination] <= 0:
+                break
+            source = min(
+                (s for s in target if deficits[s] < 0),
+                key=lambda s: deficits[s],
+            )
+            candidates = grouped[
+                (grouped["label"] == label) & (grouped["split"] == source)
+            ].copy()
+            if candidates.empty:
+                break
+            fits = candidates[candidates["group_size"] <= deficits[destination]]
+            pool = fits if not fits.empty else candidates
+            chosen = pool.sort_values(["group_size", "group_key"]).iloc[0]
+            group_key = chosen["group_key"]
+            group_size = int(chosen["group_size"])
+            result.loc[
+                (result["label"] == label) & (result["group_key"] == group_key),
+                "split",
+            ] = destination
+            grouped.loc[
+                (grouped["label"] == label) & (grouped["group_key"] == group_key),
+                "split",
+            ] = destination
+            counts[source] -= group_size
+            counts[destination] += group_size
+        else:
+            raise RuntimeError(f"Could not reach target grouped split counts for {label}")
+
     return result.drop(columns=["group_key"])
 
 

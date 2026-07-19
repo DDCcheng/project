@@ -23,25 +23,25 @@
   "augmentation": "none",
   "splits": {
     "train": {
-      "rows": 8382,
+      "rows": 8397,
       "feature_dim": 1920,
-      "seconds": 330.484,
-      "fresh": 4269,
-      "rotten": 4113
+      "seconds": 348.021,
+      "fresh": 4276,
+      "rotten": 4121
     },
     "val": {
-      "rows": 1808,
+      "rows": 1799,
       "feature_dim": 1920,
-      "seconds": 71.591,
-      "fresh": 921,
-      "rotten": 887
+      "seconds": 71.83,
+      "fresh": 917,
+      "rotten": 882
     },
     "test": {
-      "rows": 1805,
+      "rows": 1799,
       "feature_dim": 1920,
-      "seconds": 73.704,
-      "fresh": 919,
-      "rotten": 886
+      "seconds": 77.575,
+      "fresh": 916,
+      "rotten": 883
     }
   }
 }
