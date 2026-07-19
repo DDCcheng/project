@@ -1,0 +1,49 @@
+{
+  "model": "DenseNet-201",
+  "weights": "DenseNet201_Weights.DEFAULT",
+  "case": "aug",
+  "task_mode": "fresh/rotten binary classification",
+  "seed": 42,
+  "device": "cpu",
+  "feature_dim": 1920,
+  "image_size": [
+    224,
+    224
+  ],
+  "normalization_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "normalization_std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "augmentation": "train-only deterministic RandomResizedCrop(scale=(0.85,1.0)), HorizontalFlip(0.5), Rotation(10), ColorJitter(0.15,0.15,0.10,0.03)",
+  "splits": {
+    "train": {
+      "rows": 8382,
+      "feature_dim": 1920,
+      "seconds": 346.208,
+      "fresh": 4269,
+      "rotten": 4113
+    },
+    "test": {
+      "rows": 1805,
+      "feature_dim": 1920,
+      "seconds": 0.0,
+      "fresh": 919,
+      "rotten": 886,
+      "reused_from": "no_aug"
+    },
+    "val": {
+      "rows": 1808,
+      "feature_dim": 1920,
+      "seconds": 0.0,
+      "fresh": 921,
+      "rotten": 887,
+      "reused_from": "no_aug"
+    }
+  }
+}

@@ -26,6 +26,7 @@ import os
 import sys
 
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -55,6 +56,64 @@ def load_corrupt_set() -> set[str]:
     return bad
 
 
+def load_duplicate_audit() -> tuple[dict[str, str], set[str]]:
+    """Load content hashes and identify conflicting-label duplicate groups."""
+    path = os.path.join(TABLE_DIR, "image_hashes.csv")
+    if not os.path.isfile(path):
+        return {}, set()
+    hashes = pd.read_csv(path)
+    required = {"sha256", "filepath", "label"}
+    if not required.issubset(hashes.columns):
+        return {}, set()
+    path_to_hash = dict(zip(hashes["filepath"], hashes["sha256"]))
+    conflicting = set(
+        hashes.groupby("sha256")["label"].nunique().loc[lambda s: s > 1].index
+    )
+    return path_to_hash, conflicting
+
+
+def grouped_stratified_split(df: pd.DataFrame) -> pd.DataFrame:
+    """Split by source class while keeping exact duplicate groups together.
+
+    Most groups contain one file, so this preserves the requested 70/15/15
+    ratios closely.  Duplicate groups are assigned atomically, which prevents
+    identical image bytes from crossing a split boundary.
+    """
+    rng = np.random.default_rng(du.RANDOM_STATE)
+    assignments: dict[str, str] = {}
+    fractions = {"train": TRAIN_FRAC, "val": VAL_FRAC, "test": TEST_FRAC}
+
+    for label, class_df in df.groupby("label", sort=True):
+        groups = (
+            class_df.groupby("group_key", as_index=False)
+            .size()
+            .rename(columns={"size": "group_size"})
+        )
+        groups["tie_break"] = rng.random(len(groups))
+        groups = groups.sort_values(
+            ["group_size", "tie_break", "group_key"],
+            ascending=[False, True, True],
+        )
+        target = {name: fractions[name] * len(class_df) for name in fractions}
+        assigned = {name: 0 for name in fractions}
+        for row in groups.itertuples(index=False):
+            remaining = {
+                name: target[name] - assigned[name] for name in fractions
+            }
+            nonnegative = [name for name in fractions if remaining[name] >= 0]
+            candidates = nonnegative or list(fractions)
+            chosen = max(
+                candidates,
+                key=lambda name: (remaining[name] / fractions[name], fractions[name]),
+            )
+            assignments[row.group_key] = chosen
+            assigned[chosen] += int(row.group_size)
+
+    result = df.copy()
+    result["split"] = result["group_key"].map(assignments)
+    return result.drop(columns=["group_key"])
+
+
 def stratified_split(df: pd.DataFrame) -> pd.DataFrame:
     """Add a ``split`` column (train/val/test) with per-class stratification.
 
@@ -62,6 +121,9 @@ def stratified_split(df: pd.DataFrame) -> pd.DataFrame:
     into train and val so that val is 15% of the whole. Both steps are
     stratified on the label and seeded with RANDOM_STATE.
     """
+    if "group_key" in df.columns:
+        return grouped_stratified_split(df)
+
     idx = df.index.to_numpy()
     labels = df["label"].to_numpy()
 
@@ -135,6 +197,7 @@ def main() -> int:
         return 1
 
     corrupt = load_corrupt_set()
+    path_to_hash, conflicting_hashes = load_duplicate_audit()
     df = pd.DataFrame(
         [{"filepath": r.filepath, "label": r.label} for r in records]
     )
@@ -142,6 +205,18 @@ def main() -> int:
     if corrupt:
         df = df[~df["filepath"].isin(corrupt)].reset_index(drop=True)
         print(f"Excluded {before - len(df)} corrupt file(s) listed in docs/corrupt_files.txt")
+
+    if conflicting_hashes:
+        conflict_paths = {
+            path for path, digest in path_to_hash.items() if digest in conflicting_hashes
+        }
+        df = df[~df["filepath"].isin(conflict_paths)].reset_index(drop=True)
+        print(
+            f"Excluded {len(conflict_paths)} exact-duplicate file(s) with conflicting labels"
+        )
+
+    if path_to_hash:
+        df["group_key"] = df["filepath"].map(path_to_hash).fillna(df["filepath"])
 
     # Guard: stratification needs at least 2 samples per class per step.
     tiny = df["label"].value_counts()

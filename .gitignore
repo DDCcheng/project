@@ -2,8 +2,10 @@
 # COMP9444 Project 093 -- what NOT to commit
 # ------------------------------------------------------------------
 
-# NOTE: the dataset images under data/ ARE committed on purpose so the whole
-# team gets them straight from `git pull` (no Kaggle account needed).
+# Dataset images are local-only and must never be committed. Keep the usage
+# note tracked while ignoring any extracted image files under data/.
+data/*
+!data/README.md
 
 # --- Large feature files produced by roles 2 & 3 ---
 *.npz
@@ -40,6 +42,6 @@ Thumbs.db
 .claude/
 
 # ------------------------------------------------------------------
-# NOTE: data/ images, results/figures, results/tables and
-# docs/file_list.csv ARE committed on purpose -- shared team outputs.
+# NOTE: results/figures, results/tables, docs/file_list.csv and feature files
+# are shared team outputs. The dataset itself remains local-only.
 # ------------------------------------------------------------------

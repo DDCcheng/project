@@ -1,0 +1,2 @@
+total_images,readable_images,corrupt_images,num_classes,formats,width_min,width_max,height_min,height_max,unique_sizes
+12000,12000,0,20,"JPEG:9573, PNG:2409, WEBP:17, MPO:1",80,6183,95,4345,1585

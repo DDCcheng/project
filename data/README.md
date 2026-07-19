@@ -1,7 +1,8 @@
 # data/
 
-The dataset images live here and **are committed to git**, so you get them
-directly from `git pull` — no Kaggle account or download needed.
+The dataset images are **local-only and must not be committed to git**. Each
+team member downloads or extracts the Kaggle dataset separately and passes its
+local path to the preprocessing scripts.
 
 ## Layout
 
@@ -18,7 +19,7 @@ data/<dataset-folder>/
 Point the preprocessing scripts at this folder with
 `--data-dir data/<dataset-folder>`.
 
-## Re-downloading (only if you need a fresh copy)
+## Downloading or re-downloading
 
 Source: <https://www.kaggle.com/datasets/muhriddinmuxiddinov/fruits-and-vegetables-dataset>
 or run `python src/preprocessing/download_data.py` (needs Kaggle credentials).

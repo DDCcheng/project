@@ -37,8 +37,18 @@ FILE_LIST = os.path.join(REPO_ROOT, "docs", "file_list.csv")
 SPLITS = ["train", "val", "test"]
 
 
+def freshness_label(source_label: str) -> str:
+    normalized = source_label.strip().lower().replace(" ", "").replace("_", "").replace("-", "")
+    if normalized.startswith("fresh"):
+        return "fresh"
+    if normalized.startswith("rotten"):
+        return "rotten"
+    raise ValueError(f"Unknown freshness class: {source_label!r}")
+
+
 def check_split(
-    split: str, expected: pd.DataFrame, features_dir: str, model: str
+    split: str, expected: pd.DataFrame, features_dir: str, model: str,
+    expected_dim: int | None,
 ) -> list[str]:
     """Return a list of problem strings for one split (empty == all good)."""
     problems: list[str] = []
@@ -58,6 +68,11 @@ def check_split(
             f"[{split}] row count mismatch: features={feats.shape[0]} "
             f"vs file_list={n_expected}"
         )
+    if expected_dim is not None and feats.ndim == 2 and feats.shape[1] != expected_dim:
+        problems.append(
+            f"[{split}] feature dimension mismatch: features={feats.shape[1]} "
+            f"vs expected={expected_dim}"
+        )
 
     if os.path.isfile(lbl_path):
         labels = np.load(lbl_path, allow_pickle=True)
@@ -66,16 +81,21 @@ def check_split(
                 f"[{split}] label count mismatch: labels={len(labels)} "
                 f"vs file_list={n_expected}"
             )
-        elif not np.array_equal(
-            np.asarray(labels).astype(str), expected["label"].to_numpy().astype(str)
-        ):
-            n_bad = int(
-                (np.asarray(labels).astype(str) != expected["label"].to_numpy().astype(str)).sum()
-            )
-            problems.append(
-                f"[{split}] label ORDER mismatch on {n_bad} row(s): features were "
-                "likely not extracted in file_list.csv row order"
-            )
+        else:
+            expected_labels = expected["label"].map(freshness_label).to_numpy().astype(str)
+            actual_labels = np.asarray(labels).astype(str)
+            if np.array_equal(actual_labels, expected_labels):
+                expected_labels = None
+            else:
+                n_bad = int((actual_labels != expected_labels).sum())
+                problems.append(
+                    f"[{split}] binary label ORDER mismatch on {n_bad} row(s): features were "
+                    "likely not extracted in file_list.csv row order"
+                )
+        if os.path.isfile(lbl_path) and len(labels) == n_expected and not problems:
+            actual_labels = np.asarray(labels).astype(str)
+            if not set(actual_labels).issubset({"fresh", "rotten"}):
+                problems.append(f"[{split}] labels must be binary fresh/rotten")
     else:
         problems.append(f"[{split}] no label file ({lbl_path}); order not verified")
 
@@ -92,6 +112,10 @@ def main() -> int:
         required=True,
         help="Feature file prefix, e.g. densenet201 or resnext101.",
     )
+    parser.add_argument(
+        "--expected-dim", type=int, default=None,
+        help="Optional expected feature dimension, e.g. 1920 for DenseNet-201.",
+    )
     args = parser.parse_args()
 
     if not os.path.isfile(FILE_LIST):
@@ -104,7 +128,9 @@ def main() -> int:
     all_problems: list[str] = []
     for split in SPLITS:
         expected = file_list[file_list["split"] == split].reset_index(drop=True)
-        all_problems.extend(check_split(split, expected, args.features_dir, args.model_name))
+        all_problems.extend(
+            check_split(split, expected, args.features_dir, args.model_name, args.expected_dim)
+        )
 
     print("\n=== Validation result ===")
     if all_problems:
