@@ -34,6 +34,7 @@ OUTPUT_DIR = Path("results/features")
 FEATURE_PATH = OUTPUT_DIR / "resnext101_features.npy"
 LABEL_PATH = OUTPUT_DIR / "resnext101_labels.npy"
 SPLIT_PATH = OUTPUT_DIR / "resnext101_splits.npy"
+BINARY_LABEL_PATH = OUTPUT_DIR / "resnext101_binary_labels.npy"
 
 BATCH_SIZE = 32
 NUM_WORKERS = 0
@@ -41,6 +42,16 @@ NUM_WORKERS = 0
 SEED = 42
 torch.manual_seed(SEED)
 np.random.seed(SEED)
+
+
+def binary_label(label: str) -> str:
+    """Map the original 20 dataset labels to the agreed freshness target."""
+    value = str(label).lower().replace(" ", "").replace("_", "").replace("-", "")
+    if value.startswith("fresh"):
+        return "fresh"
+    if value.startswith("rotten"):
+        return "rotten"
+    raise ValueError(f"Cannot derive a fresh/rotten label from {label!r}")
 
 
 # =========================
@@ -88,6 +99,9 @@ def build_resnext101_feature_extractor(device):
     # conv layers -> avgpool -> flatten -> fc
     # We keep everything before fc.
     model.fc = torch.nn.Identity()
+
+    for parameter in model.parameters():
+        parameter.requires_grad = False
 
     model.eval()
     model.to(device)
@@ -155,16 +169,19 @@ def main():
     features_array = np.concatenate(all_features, axis=0)
     labels_array = np.array(all_labels)
     splits_array = np.array(all_splits)
+    binary_labels_array = np.asarray([binary_label(label) for label in labels_array])
 
     np.save(FEATURE_PATH, features_array)
     np.save(LABEL_PATH, labels_array)
     np.save(SPLIT_PATH, splits_array)
+    np.save(BINARY_LABEL_PATH, binary_labels_array)
 
     elapsed = time.time() - start_time
 
     print("\n=== ResNeXt-101 feature extraction complete ===")
     print(f"Features shape: {features_array.shape}")
     print(f"Labels shape:   {labels_array.shape}")
+    print(f"Binary labels:  {binary_labels_array.shape}")
     print(f"Splits shape:   {splits_array.shape}")
     print(f"Saved features: {FEATURE_PATH}")
     print(f"Saved labels:   {LABEL_PATH}")

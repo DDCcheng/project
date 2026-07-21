@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "pca": "95% variance; fit on training features only",
+  "test_used": false,
+  "cases": {
+    "A": "DenseNet",
+    "B": "DenseNet + PCA",
+    "C": "ResNeXt",
+    "D": "ResNeXt + PCA",
+    "E": "fusion",
+    "F": "fusion + PCA"
+  }
+}
