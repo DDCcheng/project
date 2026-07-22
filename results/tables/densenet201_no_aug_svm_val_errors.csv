@@ -1,0 +1,23 @@
+filepath,label,true_binary,pred_binary,correct,score_fresh_minus_rotten,confidence_or_margin,uncertainty
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Fruits\FreshApple\freshApple (149).jpg,freshapple,fresh,rotten,False,0.4539713188604561,0.4539713188604561,0.6877714759763939
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Fruits\FreshApple\freshApple (187).jpg,freshapple,fresh,rotten,False,0.2828419753450623,0.2828419753450623,0.7795192387051548
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshBellpepper\freshPepper (4).jpg,freshbellpepper,fresh,rotten,False,0.894890138526282,0.894890138526282,0.5277350806088066
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshBellpepper\freshPepper (80).jpg,freshbellpepper,fresh,rotten,False,0.8186648169597806,0.8186648169597806,0.5498539316726194
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshCarrot\freshCarrot (405).jpg,freshcarrot,fresh,rotten,False,0.8931729202057317,0.8931729202057317,0.5282137671245212
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshCarrot\freshCarrot (520).jpg,freshcarrot,fresh,rotten,False,0.4407545349848506,0.4407545349848506,0.6940807581844709
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshCarrot\freshCarrot (6).jpeg,freshcarrot,fresh,rotten,False,0.8117540249856453,0.8117540249856453,0.5519513058666576
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshCucumber\freshCucumber (510).jpg,freshcucumber,fresh,rotten,False,0.07939270741606161,0.07939270741606161,0.9264468743668666
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Fruits\FreshOrange\freshOrange (241).jpg,freshorange,fresh,rotten,False,0.6212708859788874,0.6212708859788874,0.616800072491416
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\FreshPotato\freshPotato (20).jpg,freshpotato,fresh,rotten,False,0.24432993076902784,0.24432993076902784,0.8036453799531884
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenBellpepper\rottenPepper (481).jpg,rottenbellpepper,rotten,fresh,False,-0.07211623111964424,0.07211623111964424,0.9327346895547595
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenBellpepper\rottenPepper (511).jpg,rottenbellpepper,rotten,fresh,False,-0.4051000616971876,0.4051000616971876,0.7116930866774878
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenBellpepper\rottenPepper (594).jpg,rottenbellpepper,rotten,fresh,False,-0.18644893635735635,0.18644893635735635,0.8428512760694168
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenBellpepper\rottenPepper (595).jpg,rottenbellpepper,rotten,fresh,False,-0.29144310552900476,0.29144310552900476,0.7743275686855574
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCarrot\rottenCarrot (239).jpg,rottencarrot,rotten,fresh,False,-1.0340014522118601,1.0340014522118601,0.4916417335457442
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCarrot\rottenCarrot (475).jpg,rottencarrot,rotten,fresh,False,-0.09049328926680741,0.09049328926680741,0.917016188767516
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCarrot\rottenCarrot (58).jpg,rottencarrot,rotten,fresh,False,-0.9605255234329719,0.9605255234329719,0.5100673202402146
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCucumber\rottenCucumber (133).jpg,rottencucumber,rotten,fresh,False,-0.7107193948183805,0.7107193948183805,0.584549402449585
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCucumber\rottenCucumber (421).jpg,rottencucumber,rotten,fresh,False,-0.8274039564965825,0.8274039564965825,0.547224381585096
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Vegetables\RottenCucumber\rottenCucumber (508).jpg,rottencucumber,rotten,fresh,False,-0.9959803507413967,0.9959803507413967,0.5010069360795837
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Fruits\RottenMango\rottenMango (261).jpg,rottenmango,rotten,fresh,False,-0.3563387987892266,0.3563387987892266,0.7372789165160487
+C:\Users\76462\Desktop\9444 proj\dataset\Fruits_Vegetables_Dataset(12000)\Fruits\RottenMango\rottenMango (324).jpg,rottenmango,rotten,fresh,False,-0.3112508977144127,0.3112508977144127,0.7626305551005217
