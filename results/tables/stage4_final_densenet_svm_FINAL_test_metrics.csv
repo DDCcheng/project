@@ -1,0 +1,2 @@
+case,feature_case,classifier,split,accuracy,macro_precision,macro_recall,macro_f1,weighted_precision,weighted_recall,weighted_f1,raw_feature_dim,pca_feature_dim,seconds
+A,no_aug,svm,test,0.9838888888888889,0.9839471980788521,0.9838306506889495,0.9838813220650806,0.9839021409775169,0.9838888888888889,0.9838879187832723,1920,,8.69360308299838
