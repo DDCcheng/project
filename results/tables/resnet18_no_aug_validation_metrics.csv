@@ -1,0 +1,2 @@
+model,case,task_mode,split,selection_metric,best_epoch,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,training_seconds,random_seed,batch_size,epochs_requested,learning_rate,weight_decay,test_used
+ResNet-18,no_aug,fresh/rotten binary classification,val,validation_macro_f1,5,0.9811215991116047,0.9811368010659823,0.9810928775687953,0.9811136278958446,0.9811211682350771,994.2701534169992,42,16,10,0.0001,0.0001,False

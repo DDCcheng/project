@@ -1,0 +1,20 @@
+{
+  "model": "ResNet-18",
+  "case": "aug",
+  "task_mode": "fresh/rotten binary classification",
+  "split": "val",
+  "selection_metric": "validation_macro_f1",
+  "best_epoch": 8,
+  "accuracy": 0.9783453636868407,
+  "macro_precision": 0.9785652555032902,
+  "macro_recall": 0.9781968531718714,
+  "macro_f1": 0.9783299709961784,
+  "weighted_f1": 0.9783411948331197,
+  "training_seconds": 1039.134261583,
+  "random_seed": 42,
+  "batch_size": 16,
+  "epochs_requested": 10,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "test_used": false
+}

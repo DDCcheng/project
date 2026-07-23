@@ -1,0 +1,17 @@
+validation_rank,model_family,model_setting,display_name,augmentation,classifier,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,runtime_seconds,runtime_type,raw_feature_dim,pca_feature_dim,best_epoch,selection_source,split,test_used
+1,ResNet-18,ResNet-18 No Augmentation,"ResNet-18
+No Augmentation",No augmentation,End-to-end CNN,0.9811215991116048,0.9811368010659824,0.9810928775687952,0.9811136278958446,0.9811211682350772,994.2701534169992,Complete end-to-end CNN training time,,,5.0,Best epoch selected by validation Macro-F1,val,False
+2,DenseNet-201,DenseNet-201,"DenseNet-201
+SVM",Training augmentation features,SVM,0.9783453636868408,0.9783720758069292,0.9783047987031732,0.9783357190907164,0.9783446022713572,17.514409800060093,Traditional classifier fitting and prediction time,1920.0,,,Best classifier selected by validation Macro-F1,val,False
+3,ResNet-18,ResNet-18 Training Augmentation,"ResNet-18
+Training Augmentation",Training augmentation,End-to-end CNN,0.9783453636868408,0.9785652555032902,0.9781968531718714,0.9783299709961784,0.9783411948331197,1039.134261583,Complete end-to-end CNN training time,,,8.0,Best epoch selected by validation Macro-F1,val,False
+4,DenseNet-201,DenseNet-201 + PCA(95%),"DenseNet-201 + PCA(95%)
+SVM",Training augmentation features,SVM,0.9772348695169352,0.9772900589096168,0.977172295871916,0.9772236344159057,0.9772334651293064,11.772821700200438,Traditional classifier fitting and prediction time,1920.0,738.0,,Best classifier selected by validation Macro-F1,val,False
+5,Feature Fusion,Feature Fusion + PCA(95%),"Feature Fusion + PCA(95%)
+SVM",Training augmentation features,SVM,0.9739033870072182,0.9738538876309156,0.9739906784407484,0.9738979470693896,0.9739052700626204,713.3109454999212,Traditional classifier fitting and prediction time,3968.0,1796.0,,Best classifier selected by validation Macro-F1,val,False
+6,Feature Fusion,Feature Fusion,"Feature Fusion
+SVM",Training augmentation features,SVM,0.9733481399222654,0.973333267562628,0.9735107834501612,0.9733451733451732,0.9733506380924482,33.22713250014931,Traditional classifier fitting and prediction time,3968.0,,,Best classifier selected by validation Macro-F1,val,False
+7,ResNeXt-101,ResNeXt-101 + PCA(95%),"ResNeXt-101 + PCA(95%)
+SVM",Training augmentation features,SVM,0.9528039977790116,0.952994555353902,0.9526458374969466,0.9527704496070556,0.9527949118157736,25.314222200075164,Traditional classifier fitting and prediction time,2048.0,1316.0,,Best classifier selected by validation Macro-F1,val,False
+8,ResNeXt-101,ResNeXt-101,"ResNeXt-101
+SVM",Training augmentation features,SVM,0.9494725152692948,0.9495759061365248,0.9493562745344772,0.9494423390449044,0.9494663428597604,27.096589000197127,Traditional classifier fitting and prediction time,2048.0,,,Best classifier selected by validation Macro-F1,val,False
