@@ -1,0 +1,21 @@
+{
+  "seed": 42,
+  "pca": "95% variance; fitted on training features only",
+  "classifiers": [
+    "svm",
+    "lda",
+    "bagging"
+  ],
+  "bagging_n_jobs": 1,
+  "test_used": true,
+  "test_case": "B",
+  "test_classifier": "svm",
+  "cases": {
+    "A": "DenseNet",
+    "B": "DenseNet + PCA",
+    "C": "ResNeXt",
+    "D": "ResNeXt + PCA",
+    "E": "Fusion",
+    "F": "Fusion + PCA"
+  }
+}

@@ -1,0 +1,2 @@
+model,case,classifier,pca_target,pca_components,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,fit_seconds,predict_seconds,total_seconds,n_train,n_val,seed
+resnet18,no_aug_baseline,svm,0.95_variance,245,0.9761243753470294,0.9761788710182948,0.9760613821469194,0.9761125921922911,0.9761229024526871,1.3050859000068158,0.7899295999959577,2.0950155000027735,8399,1801,42

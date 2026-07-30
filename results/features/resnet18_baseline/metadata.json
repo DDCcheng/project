@@ -1,0 +1,28 @@
+{
+  "model": "ResNet-18 baseline",
+  "weights": "ResNet18_Weights.DEFAULT",
+  "case": "no_aug",
+  "task_mode": "fresh/rotten binary classification",
+  "seed": 42,
+  "device": "cpu",
+  "feature_dim": 512,
+  "input": "RGB, 224x224, ImageNet mean/std, no augmentation",
+  "source_of_split": "docs/file_list.csv",
+  "splits": {
+    "train": {
+      "rows": 8399,
+      "feature_dim": 512,
+      "seconds": 99.481,
+      "fresh": 4276,
+      "rotten": 4123
+    },
+    "val": {
+      "rows": 1801,
+      "feature_dim": 512,
+      "seconds": 23.689,
+      "fresh": 918,
+      "rotten": 883
+    }
+  },
+  "test_loaded": false
+}
