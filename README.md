@@ -26,6 +26,41 @@ keeps the repo small.
 
 Full details and leakage rules: [`docs/EXPERIMENT_RULES.md`](docs/EXPERIMENT_RULES.md).
 
+## ResNet-18 baseline
+
+The project includes a lightweight transfer-learning baseline for comparison
+with DenseNet-201, ResNeXt-101, and Fusion:
+
+```text
+frozen ImageNet-pretrained ResNet-18
+    → StandardScaler (fit on train only)
+    → PCA retaining 95% variance (fit on train only)
+    → RBF SVM (C=1.0, gamma=scale)
+```
+
+The baseline uses the official `docs/file_list.csv`, seed 42, RGB 224×224
+ImageNet preprocessing, and no augmentation. The current validation result is
+Accuracy **0.9761** and Macro-F1 **0.9761**. Test features are not loaded in
+the baseline stage.
+
+Run it with:
+
+```bash
+python src/feature_extraction/extract_resnet18_baseline.py --data-dir <dataset-path>
+python src/evaluation/analyze_resnet18_baseline.py
+```
+
+See [`docs/RESNET18_BASELINE_ANALYSIS.md`](docs/RESNET18_BASELINE_ANALYSIS.md)
+for the metrics, confusion matrix, and error samples.
+
+## Final project deliverables
+
+- [`notebooks/COMP9444_Project_Notebook.ipynb`](notebooks/COMP9444_Project_Notebook.ipynb) - the single aggregated project notebook required for submission.
+- [`docs/COMP9444_SUMMARY_REPORT.md`](docs/COMP9444_SUMMARY_REPORT.md) - the English summary report source.
+- [`docs/COMP9444_SUMMARY_REPORT.pdf`](docs/COMP9444_SUMMARY_REPORT.pdf) - the compact report version for submission.
+
+The final report focuses on the ResNet-18 baseline, the DenseNet-201 and ResNeXt-101 backbone comparison, classifier selection, PCA and augmentation ablations, error analysis, and one validation-selected test evaluation. Full experiment tables and figures remain in `results/`.
+
 ## Team
 
 | #   | Area                                               | Owner       |
